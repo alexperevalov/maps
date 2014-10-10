@@ -15,14 +15,13 @@ or die("Unable to connect to MySQL");
 
 header('Content-Type: application/json');
 
-//echo json_encode($_GET);
 $country = safe($_GET['name']);
 
 //select a database to work with
 $db = mysql_select_db('maps', $dbcn);
 
 //execute the SQL query and return records
-$result = mysql_query("SELECT * FROM cities WHERE country = '{$country}' AND population > 500000");
+$result = mysql_query("SELECT * FROM cities WHERE country = '{$country}' AND population > 200000");
 
 $data = array();
 //fetch tha data from the database
