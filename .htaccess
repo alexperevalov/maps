@@ -1,0 +1,4 @@
+Options +FollowSymLinks
+#Options -MultiViews
+RewriteEngine On
+RewriteRule ^(.*)\.json$ data-server.php?name=$1 [QSA,L]

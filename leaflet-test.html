@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="js/jquery-2.0.2.js"></script>
+    <script src="js/handlebars-1.0.0.js"></script>
+    <script src="js/ember.js"></script>
+    <script src="js/ember-data.js"></script>
+    <script src="js/leaflet-src.js"></script>
+    <script src="js/leaflet.markercluster-src.js"></script>
+    <script src="js/ember-leaflet.js"></script>
+    <script src="js/leaflet-app.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/leaflet.css">
+    <link rel="stylesheet" type="text/css" href="css/markercluster.css">
+    <link rel="stylesheet" type="text/css" href="css/markercluster.default.css">
+    <title>Leaflet lib demo page</title>
+    <style type="text/css">
+        .leaflet-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1000px;
+            height: 600px;
+        }
+    </style>
+</head>
+<body>
+    <script type="text/x-handlebars" data-template-name="application">
+        {{outlet}}
+    </script>
+</body>
+</html>
