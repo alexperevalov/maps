@@ -5,6 +5,9 @@
  * Date: 10/10/14
  * Time: 1:11 PM
  */
+define('POPULATION_LOWER_BOUND', 200000);
+define('RADIUS_DEVISOR', 100);
+
 function safe($value){
     return mysql_real_escape_string($value);
 }
@@ -21,12 +24,12 @@ $country = safe($_GET['name']);
 $db = mysql_select_db('maps', $dbcn);
 
 //execute the SQL query and return records
-$result = mysql_query("SELECT * FROM cities WHERE country = '{$country}' AND population > 200000");
+$result = mysql_query("SELECT * FROM cities WHERE country = '{$country}' AND population > " . POPULATION_LOWER_BOUND);
 
 $data = array();
 //fetch tha data from the database
 while ($row = mysql_fetch_array($result)) {
-    $row['radius'] = intval($row['population']) / 10;
+    $row['radius'] = intval($row['population']) / RADIUS_DEVISOR;
     array_push($data, $row);
     error_log($row['city']);
 }
