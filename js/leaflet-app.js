@@ -27,6 +27,7 @@ $(window).load(function(){
     App.Data = Ember.Object.extend();
 
     App.Data.reopenClass({
+
         getCountry: function(countryCode) {
             return $.getJSON("" + countryCode + ".json").then(function(response) {
 
@@ -42,6 +43,7 @@ $(window).load(function(){
 
             });
         }
+
     });
 
     App.CircleCollectionLayer =
@@ -50,11 +52,6 @@ $(window).load(function(){
             contentBinding: "controller",
             itemLayerClass: EmberLeaflet.CircleLayer.extend()
 
-        });
-
-    App.MarkerCollectionLayer =
-        EmberLeaflet.CollectionLayer.extend({
-            itemLayerClass: App.MarkerLayer
         });
 
     App.IndexView =
@@ -68,5 +65,25 @@ $(window).load(function(){
         });
 
     App.ApplicationController =
-        Ember.Controller.extend();
+        Ember.Controller.extend({
+
+            actions: {
+
+                reloadMarkers: function(e){
+//                    alert($('#country_selector').val());
+                    this.set('model', App.Data.getCountry($('#country_selector').val()));
+                    this.rerender();
+                }
+
+            }
+
+        });
+
+    App.CountriesController =
+        Ember.ArrayController.create();
+
+    Ember.$.getJSON('countries.json').then(function(data) {
+        App.CountriesController.set('model', data);
+    });
+
 });

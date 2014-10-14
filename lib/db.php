@@ -51,18 +51,28 @@ class db {
         mysql_select_db(self::DB_NAME, self::getConnection());
         $result = mysql_query($query, self::getConnection());
 
-        $data = array();
-        while ($row = mysql_fetch_assoc($result)) {
-            array_push($data, $row);
+        if (!is_bool($result)) {
+
+            $data = array();
+            while ($row = mysql_fetch_assoc($result)) {
+                array_push($data, $row);
+            }
+
+            if (self::LOGGING) {
+                error_log('--- result: ' . mysql_num_rows($result) . ' rows --- ' . round(1000000 * (microtime(1) - $t_mark)) . ' microsec. taken ---');
+            }
+
+            mysql_free_result($result);
+
+        } else {
+
+            $data = intval($result);
+
         }
 
-        if (self::LOGGING) {
-            error_log('--- result: ' . mysql_num_rows($result) . ' rows --- ' . (1000000 * (microtime(1) - $t_mark)) . ' microsec. taken ---');
-        }
-
-        mysql_free_result($result);
         //close the connection
         self::close();
+        self::$connection = null;
 
         return $data;
     }

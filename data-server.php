@@ -11,14 +11,23 @@ define('RADIUS_DEVISOR', 100);
 include "lib/db.php";
 
 header('Content-Type: application/json');
-
-$result = db::query("SELECT * FROM cities WHERE country = '" . db::quote($_GET['name']) . "' AND population > " . POPULATION_LOWER_BOUND);
-
 $data = array();
-foreach ($result as $row) {
-    $row['radius'] = intval($row['population']) / RADIUS_DEVISOR;
-    array_push($data, $row);
-//    error_log($row['city']);
+
+if ('countries' == $_GET['name']) {
+
+    $data = db::query("SELECT country, country_human FROM countries");
+
+}
+else {
+
+    $result = db::query("SELECT * FROM cities WHERE country = '" . db::quote($_GET['name']) . "' AND population > " . POPULATION_LOWER_BOUND);
+
+    foreach ($result as $row) {
+        $row['radius'] = intval($row['population']) / RADIUS_DEVISOR;
+        array_push($data, $row);
+    //    error_log($row['city']);
+    }
+
 }
 
 echo json_encode($data);
