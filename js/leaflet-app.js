@@ -3,6 +3,30 @@
  */
 var App;
 $(window).load(function(){
+    Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
+
+        switch (operator) {
+            case '==':
+                return (v1 == v2) ? options.fn(this) : options.inverse(this);
+            case '===':
+                return (v1 === v2) ? options.fn(this) : options.inverse(this);
+            case '<':
+                return (v1 < v2) ? options.fn(this) : options.inverse(this);
+            case '<=':
+                return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+            case '>':
+                return (v1 > v2) ? options.fn(this) : options.inverse(this);
+            case '>=':
+                return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+            case '&&':
+                return (v1 && v2) ? options.fn(this) : options.inverse(this);
+            case '||':
+                return (v1 || v2) ? options.fn(this) : options.inverse(this);
+            default:
+                return options.inverse(this);
+        }
+    });
+
     App = Ember.Application.create();
 
     App.TileLayer =
@@ -72,7 +96,7 @@ $(window).load(function(){
                 reloadMarkers: function(e){
 //                    alert($('#country_selector').val());
                     this.set('model', App.Data.getCountry($('#country_selector').val()));
-                    this.rerender();
+                    this.get('view').rerender();
                 }
 
             }

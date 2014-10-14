@@ -34,7 +34,7 @@
             Select country:
             <select id="country_selector" {{action "reloadMarkers" on="change"}}>
                 {{#each App.CountriesController}}
-                <option {{bind-attr value="country"}}>{{country_human}}</option>
+                    <option {{#ifCond 'us' '==' country}}selected="selected"{{/ifCond}} {{bind-attr value="country"}}>{{country_human}}</option>
                 {{/each}}
             </select>
         </div>
