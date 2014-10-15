@@ -2,31 +2,16 @@
  * Created by alexp on 10/9/14.
  */
 var App;
+
+Handlebars.registerHelper("ifvalue", function(conditional, options) {
+    if (options.hash.value === conditional) {
+        options.fn(this)
+    } else {
+        options.inverse(this);
+    }
+});
+
 $(window).load(function(){
-    Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
-
-        switch (operator) {
-            case '==':
-                return (v1 == v2) ? options.fn(this) : options.inverse(this);
-            case '===':
-                return (v1 === v2) ? options.fn(this) : options.inverse(this);
-            case '<':
-                return (v1 < v2) ? options.fn(this) : options.inverse(this);
-            case '<=':
-                return (v1 <= v2) ? options.fn(this) : options.inverse(this);
-            case '>':
-                return (v1 > v2) ? options.fn(this) : options.inverse(this);
-            case '>=':
-                return (v1 >= v2) ? options.fn(this) : options.inverse(this);
-            case '&&':
-                return (v1 && v2) ? options.fn(this) : options.inverse(this);
-            case '||':
-                return (v1 || v2) ? options.fn(this) : options.inverse(this);
-            default:
-                return options.inverse(this);
-        }
-    });
-
     App = Ember.Application.create();
 
     App.TileLayer =
@@ -85,7 +70,12 @@ $(window).load(function(){
             childLayers: [
                 App.TileLayer,
                 App.CircleCollectionLayer
-            ]
+            ],
+            didInsertElement: function(){
+                console.log('the view is rendered');
+                App.view = this;
+                return this._super();
+            }
         });
 
     App.ApplicationController =
@@ -94,9 +84,13 @@ $(window).load(function(){
             actions: {
 
                 reloadMarkers: function(e){
-//                    alert($('#country_selector').val());
                     this.set('model', App.Data.getCountry($('#country_selector').val()));
-                    this.get('view').rerender();
+//                    App.markesLayer._super().rerender();
+                    console.log(App.view);
+//                    App.view._childLayerClasses.pop();
+//                    App.view.rerender();
+//                    App.view._childLayerClasses.push(App.CircleCollectionLayer.create());
+                    App.view.init();
                 }
 
             }

@@ -15,7 +15,7 @@ $data = array();
 
 if ('countries' == $_GET['name']) {
 
-    $data = db::query("SELECT country, country_human FROM countries");
+    $data = db::query("SELECT country, country_human FROM countries ORDER BY country_human");
 
 }
 else {

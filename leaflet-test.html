@@ -15,9 +15,6 @@
     <title>Leaflet lib demo page</title>
     <style type="text/css">
         .leaflet-container {
-            /*position: absolute;
-            top: 0;
-            left: 0;*/
             width: 1000px;
             height: 600px;
         }
@@ -34,7 +31,11 @@
             Select country:
             <select id="country_selector" {{action "reloadMarkers" on="change"}}>
                 {{#each App.CountriesController}}
-                    <option {{#ifCond 'us' '==' country}}selected="selected"{{/ifCond}} {{bind-attr value="country"}}>{{country_human}}</option>
+                    {{#ifvalue country value="us"}}
+                        <option selected {{bind-attr value="country"}}>{{country_human}}</option>
+                    {{else}}
+                        <option {{bind-attr value="country"}}>{{country_human}}</option>
+                    {{/ifvalue}}
                 {{/each}}
             </select>
         </div>
